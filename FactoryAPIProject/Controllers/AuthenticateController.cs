@@ -67,6 +67,16 @@ namespace FactoryAPIProject.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
+
+            //-----------------
+            //Rolleri Database eklemek için
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            //-----------------
+
+
             IdentityUser user = new()
             {
                 Email = model.Email,
