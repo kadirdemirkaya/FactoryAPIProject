@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FactoryAPIProject.Migrations
 {
-    public partial class migFirst : Migration
+    public partial class lucky : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

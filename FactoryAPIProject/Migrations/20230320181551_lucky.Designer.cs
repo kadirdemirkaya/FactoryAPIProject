@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FactoryAPIProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230320180149_migFirst")]
-    partial class migFirst
+    [Migration("20230320181551_lucky")]
+    partial class lucky
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
