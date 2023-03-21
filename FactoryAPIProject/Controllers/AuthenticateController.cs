@@ -1,4 +1,5 @@
 ﻿using FactoryAPIProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -131,6 +132,7 @@ namespace FactoryAPIProject.Controllers
 
         [HttpGet]
         [Route("Get")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             return Ok("Istek oluyo iste awk");
