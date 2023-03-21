@@ -58,7 +58,7 @@ namespace FactoryAPIProject.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
-                    //status = 200
+                    isSuccess = true
                 });
             }
             return Unauthorized();
@@ -70,7 +70,7 @@ namespace FactoryAPIProject.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" , isSuccess = false });
 
             IdentityUser user = new()
             {
@@ -81,13 +81,13 @@ namespace FactoryAPIProject.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             await _userManager.AddToRoleAsync(user, UserRoles.User);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed ! Please check user details and try again. please !" });
-            var response = new Response
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed ! Please check user details and try again. please !" ,isSuccess = false});
+            return Ok(new Response
             {
                 Status = "Success",
                 Message = "User created successfully!",
-            };
-            return Ok(JsonSerializer.Serialize(response));
+                isSuccess = true
+            });
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace FactoryAPIProject.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" ,isSuccess = false});
 
             IdentityUser user = new()
             {
@@ -106,7 +106,7 @@ namespace FactoryAPIProject.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed! Please check user details and try again. please !" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed! Please check user details and try again. please !",isSuccess = false });
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -117,7 +117,7 @@ namespace FactoryAPIProject.Controllers
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            return Ok(new Response { Status = "Success !", Message = "User created successfully !" });
+            return Ok(new Response { Status = "Success !", Message = "User created successfully !" ,isSuccess = true});
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
@@ -133,14 +133,6 @@ namespace FactoryAPIProject.Controllers
                 );
 
             return token;
-        }
-
-        [HttpGet]
-        [Route("Get")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Get()
-        {
-            return Ok(JsonSerializer.Serialize("Get methodu cagirildi"));
         }
     }
 }
