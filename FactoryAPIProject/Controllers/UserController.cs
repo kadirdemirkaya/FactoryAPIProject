@@ -9,7 +9,6 @@ namespace FactoryAPIProject.Controllers
 {
     //[Authorize(Roles = UserRoles.Admin)]
     [Authorize(Roles = UserRoles.User)]
-
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
