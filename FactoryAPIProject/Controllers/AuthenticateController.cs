@@ -53,7 +53,7 @@ namespace FactoryAPIProject.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
-                    //status = 200 canın ne isterse döndür
+                    //status = 200
                 });
             }
             return Unauthorized();
@@ -65,17 +65,7 @@ namespace FactoryAPIProject.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-
-            //-----------------
-            //Rolleri Database eklemek için
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            //-----------------
-
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" });
 
             IdentityUser user = new()
             {
@@ -86,18 +76,18 @@ namespace FactoryAPIProject.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             await _userManager.AddToRoleAsync(user, UserRoles.User);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed ! Please check user details and try again. please !" });
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
         [HttpPost]
-        [Route("register-admin")]
+        [Route("registeradmin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" });
 
             IdentityUser user = new()
             {
@@ -107,24 +97,18 @@ namespace FactoryAPIProject.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed! Please check user details and try again. please !" });
 
-            //Rolleri Database eklemek için
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-            //tahminim iki tane rol atıyor gelen kayıta
             if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            //if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            //{
-            //    await _userManager.AddToRoleAsync(user, UserRoles.User);
-            //}
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new Response { Status = "Success !", Message = "User created successfully !" });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
