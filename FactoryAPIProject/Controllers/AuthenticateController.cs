@@ -133,7 +133,7 @@ namespace FactoryAPIProject.Controllers
         [Route("Get")]
         public async Task<IActionResult> Get()
         {
-            return Ok("Istek oluyo iste awk");
+            return Ok("istek oluyo iste awk");
         }
     }
 }
