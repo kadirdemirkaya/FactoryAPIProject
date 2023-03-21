@@ -11,6 +11,11 @@ ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlSetting")));
 
+builder.Services.AddCors(options =>
+                 options.AddDefaultPolicy(builder =>
+                 builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -63,6 +68,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 
