@@ -130,12 +130,5 @@ namespace FactoryAPIProject.Controllers
             return token;
         }
 
-        [HttpGet]
-        [Route("Get")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Get()
-        {
-            return Ok("Istek oluyo iste awk");
-        }
     }
 }
