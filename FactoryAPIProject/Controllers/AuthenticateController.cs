@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace FactoryAPIProject.Controllers
 {
@@ -81,8 +82,12 @@ namespace FactoryAPIProject.Controllers
             await _userManager.AddToRoleAsync(user, UserRoles.User);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed ! Please check user details and try again. please !" });
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            var response = new Response
+            {
+                Status = "Success",
+                Message = "User created successfully!",
+            };
+            return Ok(JsonSerializer.Serialize(response));
         }
 
         [HttpPost]
@@ -130,5 +135,12 @@ namespace FactoryAPIProject.Controllers
             return token;
         }
 
+        [HttpGet]
+        [Route("Get")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(JsonSerializer.Serialize("Get methodu cagirildi"));
+        }
     }
 }
