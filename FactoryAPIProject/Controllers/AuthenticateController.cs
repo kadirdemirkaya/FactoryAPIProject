@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace FactoryAPIProject.Controllers
 {
@@ -135,7 +136,7 @@ namespace FactoryAPIProject.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
-            return Ok("istek oluyo iste awk");
+            return Ok(JsonSerializer.Serialize("Get methodu cagirildi"));
         }
     }
 }
