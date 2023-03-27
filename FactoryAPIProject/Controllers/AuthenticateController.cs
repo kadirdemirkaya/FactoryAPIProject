@@ -117,6 +117,10 @@ namespace FactoryAPIProject.Controllers
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user,UserRoles.User);
+            }
             return Ok(new Response { Status = "Success !", Message = "User created successfully !" ,isSuccess = true});
         }
 

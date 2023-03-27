@@ -1,4 +1,5 @@
 ﻿using FactoryAPIProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace FactoryAPIProject.Services
@@ -12,10 +13,10 @@ namespace FactoryAPIProject.Services
             _userManager = userManager;
         }
 
-        public async Task<List<IdentityUser>> GetUsers()
+        public async Task<string> GetUsers()
         {
-            var users = await _userManager.GetUsersInRoleAsync("User");
-            return users.ToList();
+            string users = "Users cekildi farz et";
+            return users;
         }
     }
 }
