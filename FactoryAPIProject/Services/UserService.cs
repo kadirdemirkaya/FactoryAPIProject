@@ -1,6 +1,8 @@
 ﻿using FactoryAPIProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace FactoryAPIProject.Services
 {
@@ -16,7 +18,7 @@ namespace FactoryAPIProject.Services
         public async Task<string> GetUsers()
         {
             string users = "Users cekildi farz et";
-            return users;
+            return JsonConvert.SerializeObject(users);
         }
     }
 }
