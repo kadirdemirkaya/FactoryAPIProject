@@ -36,16 +36,21 @@ namespace FactoryAPIProject.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            if(!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(x => x.Errors);
+                return BadRequest(errors);
+            }
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
 
                 foreach (var userRole in userRoles)
                 {
@@ -68,6 +73,12 @@ namespace FactoryAPIProject.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            if(!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(x => x.Errors);
+                return BadRequest(errors);
+            }
+
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User already exists !" , isSuccess = false });
