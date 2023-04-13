@@ -20,8 +20,6 @@ namespace FactoryAPIProject.Services
         {
             var users = await _userManager.Users.ToListAsync();
             return users;
-            string users = "Users cekildi farz et";
-            return JsonConvert.SerializeObject(users);
         }
     }
 }
