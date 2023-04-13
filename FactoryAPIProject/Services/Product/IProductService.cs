@@ -6,5 +6,7 @@ namespace FactoryAPIProject.Services.Product
     public interface IProductService
     {
         public Task<List<FactoryAPIProject.Models.Product>> GetAllProductAsync();
+
+        public List<FactoryAPIProject.Models.Product> SeedProductData();
     }
 }
