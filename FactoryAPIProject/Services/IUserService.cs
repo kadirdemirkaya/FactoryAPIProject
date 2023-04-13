@@ -5,6 +5,6 @@ namespace FactoryAPIProject.Services
 {
     public interface IUserService
     {
-        public Task<string> GetUsers();
+        public Task<List<IdentityUser>> GetUsers();
     }
 }
