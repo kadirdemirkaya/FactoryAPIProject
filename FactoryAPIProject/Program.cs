@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FactoryAPIProject.Services;
+using FactoryAPIProject.Services.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -51,6 +52,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddControllers();   
 builder.Services.AddEndpointsApiExplorer();
