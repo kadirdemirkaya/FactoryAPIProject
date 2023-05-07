@@ -31,7 +31,9 @@ namespace FactoryAPIProject.Services.Product
                 new Models.Product() { ProductName = "grape", Price=13.8f},
                 new Models.Product() { ProductName = "cake", Price=13.8f},
                 new Models.Product() { ProductName = "chocolatte", Price=13.8f},
-                new Models.Product() { ProductName = "bread", Price=13.8f}
+                new Models.Product() { ProductName = "bread", Price=13.8f},
+                new Models.Product() { ProductName = "chips", Price=13.8f},
+                new Models.Product() { ProductName = "patato", Price=13.8f}
             };
             return products;
         }
