@@ -12,6 +12,8 @@ ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlSetting")));
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddCors(options =>
                  options.AddDefaultPolicy(builder =>
                  builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
