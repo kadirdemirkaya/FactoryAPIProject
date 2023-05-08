@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FactoryAPIProject.Migrations
 {
-<<<<<<<< HEAD:FactoryAPIProject/Migrations/20230503123815_firstMig.cs
-    public partial class firstMig : Migration
-========
-    public partial class myDataBase : Migration
->>>>>>>> d0808e702be7306d251c472c37178b48e72478ab:FactoryAPIProject/Migrations/20230413142307_myDataBase.cs
+    public partial class ugur : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -255,11 +251,7 @@ namespace FactoryAPIProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:FactoryAPIProject/Migrations/20230503123815_firstMig.cs
                 name: "Baskets");
-========
-                name: "Products");
->>>>>>>> d0808e702be7306d251c472c37178b48e72478ab:FactoryAPIProject/Migrations/20230413142307_myDataBase.cs
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

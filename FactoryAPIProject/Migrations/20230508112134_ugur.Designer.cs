@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FactoryAPIProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:FactoryAPIProject/Migrations/20230503123815_firstMig.Designer.cs
-    [Migration("20230503123815_firstMig")]
-    partial class firstMig
-========
-    [Migration("20230413142307_myDataBase")]
-    partial class myDataBase
->>>>>>>> d0808e702be7306d251c472c37178b48e72478ab:FactoryAPIProject/Migrations/20230413142307_myDataBase.Designer.cs
+    [Migration("20230508112134_ugur")]
+    partial class ugur
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
