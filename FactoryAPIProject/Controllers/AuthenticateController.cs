@@ -78,7 +78,10 @@ namespace FactoryAPIProject.Controllers
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(x => x.Errors);
-                return BadRequest(errors);
+                return Ok(new
+                {
+                    isSuccess = false
+                });
             }
 
             var userExists = await _userManager.FindByNameAsync(model.Username);
