@@ -5,7 +5,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FactoryAPIProject.Migrations
 {
+<<<<<<<< HEAD:FactoryAPIProject/Migrations/20230508112134_ugur.cs
     public partial class ugur : Migration
+========
+    public partial class asd : Migration
+>>>>>>>> 8624597dc29da7db7bf500192374d6f24cc91fb3:FactoryAPIProject/Migrations/20230507203354_asd.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -168,26 +172,6 @@ namespace FactoryAPIProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Baskets",
-                columns: table => new
-                {
-                    BasketId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Baskets", x => x.BasketId);
-                    table.ForeignKey(
-                        name: "FK_Baskets_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -226,11 +210,6 @@ namespace FactoryAPIProject.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Baskets_ProductId",
-                table: "Baskets",
-                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -251,16 +230,17 @@ namespace FactoryAPIProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+<<<<<<<< HEAD:FactoryAPIProject/Migrations/20230508112134_ugur.cs
                 name: "Baskets");
+========
+                name: "Products");
+>>>>>>>> 8624597dc29da7db7bf500192374d6f24cc91fb3:FactoryAPIProject/Migrations/20230507203354_asd.cs
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Products");
         }
     }
 }
