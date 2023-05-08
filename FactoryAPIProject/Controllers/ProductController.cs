@@ -15,7 +15,7 @@ namespace FactoryAPIProject.Controllers
         {
             _productService = productService;
         }
-
+        //31
         [HttpGet]
         public async Task<List<Product>> GetProduct()
         {

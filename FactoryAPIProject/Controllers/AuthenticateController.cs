@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -36,7 +37,10 @@ namespace FactoryAPIProject.Controllers
             if(!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(x => x.Errors);
-                return BadRequest(errors);
+                return Ok(new
+                {
+                    isSuccess = false
+                });
             }
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
@@ -63,7 +67,10 @@ namespace FactoryAPIProject.Controllers
                     isSuccess = true
                 });
             }
-            return Unauthorized();
+            return Ok(new
+            {
+                isSuccess = false
+            });
         }
 
         [HttpPost]
