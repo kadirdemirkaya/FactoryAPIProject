@@ -1,11 +1,17 @@
 using FactoryAPIProject.Data;
+using FactoryAPIProject.Filters;
+using FactoryAPIProject.Models;
+using FactoryAPIProject.Services;
+using FactoryAPIProject.Validations;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Globalization;
 using System.Text;
-using FactoryAPIProject.Services;
-using FactoryAPIProject.Services.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -33,13 +39,13 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 
-builder.Services.AddAuthentication(options => 
+builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options => 
+.AddJwtBearer(options =>
 {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
@@ -56,11 +62,18 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
-builder.Services.AddControllers();   
+
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginValidator>())
+    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
+
 app.UseCors();
 
 if (app.Environment.IsDevelopment())
@@ -73,8 +86,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 
