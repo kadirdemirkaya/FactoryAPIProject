@@ -1,4 +1,7 @@
 using FactoryAPIProject.Data;
+using FactoryAPIProject.Data.Repositories.Abstractions;
+using FactoryAPIProject.Data.Repositories.Concretes;
+using FactoryAPIProject.Data.UnitOfWorks;
 using FactoryAPIProject.Filters;
 using FactoryAPIProject.Middlewares;
 using FactoryAPIProject.Models;
@@ -75,6 +78,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())

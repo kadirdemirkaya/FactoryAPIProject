@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FactoryAPIProject.Models.BaseEntity;
+using System.ComponentModel.DataAnnotations;
 
 namespace FactoryAPIProject.Models
 {
-    public class RegisterModel
+    public class RegisterModel : EntityBase
     {
         public string? Username { get; set; }
         public string? Fullname { get; set; }

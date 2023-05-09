@@ -8,7 +8,7 @@ namespace FactoryAPIProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         readonly IProductService _productService;
@@ -27,7 +27,7 @@ namespace FactoryAPIProject.Controllers
 
         [HttpPost]
         [Route("AddProduct")]
-        public async Task<IActionResult> AddProduct([FromBody]ProductModel product)
+        public async Task<IActionResult> AddProduct([FromBody]Product product)
         {
             await _productService.AddProductAsync(product);
             return StatusCode(StatusCodes.Status200OK,new Response { Status = "Success !", Message = "Product added succesfully !", isSuccess = true });
