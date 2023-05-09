@@ -15,10 +15,10 @@ namespace FactoryAPIProject.Controllers
     public class UserController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IUserService _userService;
 
-        public UserController(UserManager<IdentityUser> userManager, IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public UserController(UserManager<AppUser> userManager, IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _userService = userService;

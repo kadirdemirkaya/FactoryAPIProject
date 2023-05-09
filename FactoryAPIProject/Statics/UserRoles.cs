@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FactoryAPIProject.Models
+﻿namespace FactoryAPIProject.Statics
 {
     public class UserRoles
     {
