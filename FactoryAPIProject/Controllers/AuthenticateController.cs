@@ -19,8 +19,6 @@ namespace FactoryAPIProject.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        private readonly IValidator<LoginModel> validator;
-
         public AuthenticateController(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,

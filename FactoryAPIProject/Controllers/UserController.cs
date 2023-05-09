@@ -26,6 +26,7 @@ namespace FactoryAPIProject.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetUsers")]
         public async Task<IActionResult> GetUsers()
         {
