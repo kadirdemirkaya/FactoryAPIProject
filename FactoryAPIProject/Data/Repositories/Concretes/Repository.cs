@@ -35,5 +35,16 @@ namespace FactoryAPIProject.Data.Repositories.Concretes
         {
             return await Table.FindAsync(id);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            var response = Table.Remove(entity);
+        }
+
+        public void Update(T entity)
+        {
+            Table.Update(entity);
+        }
     }
 }

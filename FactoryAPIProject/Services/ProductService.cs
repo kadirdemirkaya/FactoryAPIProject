@@ -36,17 +36,28 @@ namespace FactoryAPIProject.Services
         {
             List<Product> products = new List<Product>()
             {
-                new Product() {ProductName = "erik", Price=12},
-                new Product() {ProductName = "apple", Price=14},
-                new Product() {ProductName = "orange", Price=11},
-                new Product() {ProductName = "grape", Price=13},
-                new Product() {ProductName = "cake", Price=13},
-                new Product() {ProductName = "chocolatte", Price=13},
-                new Product() {ProductName = "bread", Price=13},
-                new Product() {ProductName = "chips", Price=13},
-                new Product() {ProductName = "patato", Price=13}
+                new Product() {ProductName = "erik", Price=12,ImageId = 3},
+                //new Product() {ProductName = "apple", Price=14,ImageId = 3},
+                //new Product() {ProductName = "orange", Price=11,ImageId = 3},
+                //new Product() {ProductName = "grape", Price=13,ImageId = 3},
+                //new Product() {ProductName = "cake", Price=13,ImageId = 3},
+                //new Product() {ProductName = "chocolatte", Price=15,ImageId = 3},
+                //new Product() {ProductName = "bread", Price=103,ImageId = 3},
+                //new Product() {ProductName = "chips", Price=17,ImageId = 3},
+                //new Product() {ProductName = "patato", Price=19,ImageId = 3}
             };
             return products;
+        }
+
+        public async Task DeleteProductAsync(int id)
+        {
+            await unitOfWork.GetRepository<Product>().DeleteAsync(id);
+        }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            var product = await unitOfWork.GetRepository<Product>().GetByIdAsync(id);
+            return product;
         }
     }
 }

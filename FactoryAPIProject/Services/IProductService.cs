@@ -9,5 +9,10 @@ namespace FactoryAPIProject.Services
         List<Product> SeedProductData();
 
         Task AddProductAsync(Product product);
+
+        Task DeleteProductAsync(int id);
+
+        Task<Product> GetProductById(int id);
+
     }
 }

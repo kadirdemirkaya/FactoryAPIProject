@@ -29,6 +29,7 @@ builder.Services.AddCors(options =>
                  options.AddDefaultPolicy(builder =>
                  builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
+builder.Services.AddDirectoryBrowser();
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
 {
@@ -77,8 +78,10 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(IImageRepository), typeof(ImageRepository));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
@@ -101,6 +104,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHsts();
+
+app.UseHttpsRedirection();
+
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseMiddleware<GlobalRequestHandlerMiddleware>();
@@ -111,6 +118,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

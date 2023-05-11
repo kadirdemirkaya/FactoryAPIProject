@@ -29,5 +29,15 @@ namespace FactoryAPIProject.Services
             string? userName = httpContextAccessor.HttpContext.User.Identity.Name;
             return userName;
         }
+
+        public async Task DeleteUser(int id)
+        {
+            await unitOfWork.GetRepository<AppUser>().DeleteAsync(id);
+        }
+
+        public void UpdateUser(AppUser appUser)
+        {
+            unitOfWork.GetRepository<AppUser>().Update(appUser);
+        }
     }
 }

@@ -97,6 +97,7 @@ namespace FactoryAPIProject.Controllers
                 Gender = model.Gender,
                 FullName = model.Fullname,
                 EmailConfirmed = true,
+                imageId = 1
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -137,6 +138,7 @@ namespace FactoryAPIProject.Controllers
                 Gender = model.Gender,
                 FullName = model.Fullname,
                 EmailConfirmed = true,
+                imageId = 1
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

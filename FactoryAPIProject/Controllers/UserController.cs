@@ -43,5 +43,13 @@ namespace FactoryAPIProject.Controllers
             var jsonData = JsonSerializer.Serialize(userInfo);
             return Ok(jsonData);
         }
+
+        [HttpDelete]
+        [Route("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteUser(id);
+            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "User delete succesfully !", isSuccess = true });
+        }
     }
 }
