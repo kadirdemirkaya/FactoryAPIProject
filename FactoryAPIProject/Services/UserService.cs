@@ -1,4 +1,5 @@
-﻿using FactoryAPIProject.Models;
+﻿using FactoryAPIProject.Data.UnitOfWorks;
+using FactoryAPIProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,16 +9,18 @@ namespace FactoryAPIProject.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UserService(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             this.httpContextAccessor = httpContextAccessor;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<List<AppUser>> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await unitOfWork.GetRepository<AppUser>().GetAllAsync();
             return users;
         }
 
@@ -25,6 +28,16 @@ namespace FactoryAPIProject.Services
         {
             string? userName = httpContextAccessor.HttpContext.User.Identity.Name;
             return userName;
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            await unitOfWork.GetRepository<AppUser>().DeleteAsync(id);
+        }
+
+        public void UpdateUser(AppUser appUser)
+        {
+            unitOfWork.GetRepository<AppUser>().Update(appUser);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FactoryAPIProject.Models.BaseEntity;
+using Microsoft.AspNetCore.Identity;
 
 namespace FactoryAPIProject.Models
 {
-    public class AppUserClaim : IdentityUserClaim<int>
+    public class AppUserClaim : IdentityUserClaim<int> , EntityBase
     {
     }
 }

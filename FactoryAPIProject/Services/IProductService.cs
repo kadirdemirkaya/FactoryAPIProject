@@ -4,10 +4,15 @@ namespace FactoryAPIProject.Services
 {
     public interface IProductService
     {
-        public Task<List<Product>> GetAllProductAsync();
+        Task<List<Product>> GetAllProductAsync();
 
-        public List<Product> SeedProductData();
+        List<Product> SeedProductData();
 
-        public Task AddProductAsync(ProductModel product);
+        Task AddProductAsync(Product product);
+
+        Task DeleteProductAsync(int id);
+
+        Task<Product> GetProductById(int id);
+
     }
 }

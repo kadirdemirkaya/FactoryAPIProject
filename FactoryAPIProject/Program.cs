@@ -1,4 +1,7 @@
 using FactoryAPIProject.Data;
+using FactoryAPIProject.Data.Repositories.Abstractions;
+using FactoryAPIProject.Data.Repositories.Concretes;
+using FactoryAPIProject.Data.UnitOfWorks;
 using FactoryAPIProject.Filters;
 using FactoryAPIProject.Middlewares;
 using FactoryAPIProject.Models;
@@ -13,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +30,7 @@ builder.Services.AddCors(options =>
                  options.AddDefaultPolicy(builder =>
                  builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
 
+builder.Services.AddDirectoryBrowser();
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
 {
@@ -75,11 +80,30 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+List<string> tokens = new List<string>();
+builder.Services.AddScoped<List<string>>(provider => tokens);
 
 
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+//builder.Services.AddControllers
+//    (options => options.Filters.Add<ValidationFilter>())
+//    .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginValidator>())
+//    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<TokenValidationFilter>();
+    options.Filters.Add<ValidationFilter>();
+})
     .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginValidator>())
-    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true)
+     .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.PropertyNamingPolicy = null;
+         options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+     });
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -96,6 +120,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHsts();
+
+app.UseHttpsRedirection();
+
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseMiddleware<GlobalRequestHandlerMiddleware>();
@@ -106,6 +134,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

@@ -1,4 +1,5 @@
 ﻿using FactoryAPIProject.Data;
+using FactoryAPIProject.Data.UnitOfWorks;
 using FactoryAPIProject.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,49 +7,58 @@ namespace FactoryAPIProject.Services
 {
     public class ProductService : IProductService
     {
-        public ApplicationDbContext _context;
-        public ProductService(ApplicationDbContext context)
+
+        private readonly IUnitOfWork unitOfWork;
+
+        public ProductService(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            this.unitOfWork = unitOfWork;
         }
 
-        public async Task AddProductAsync(ProductModel product)
+        public async Task AddProductAsync(Product product)
         {
-            var prod = new Product()
-            {
-                ProductName = product.ProductName,
-                Price = product.Price
-            };
-            await _context.Products.AddAsync(prod);
-            await _context.SaveChangesAsync();
+            await unitOfWork.GetRepository<Product>().AddAsync(product);
+            await unitOfWork.SaveAsync();
         }
 
         public async Task<List<Product>> GetAllProductAsync()
         {
-            if (!_context.Products.Any())
+            var countProduct = await unitOfWork.GetRepository<Product>().GetAllAsync();
+            if (!countProduct.Any())
             {
-                await _context.Products.AddRangeAsync(SeedProductData());
-                await _context.SaveChangesAsync();
+                await unitOfWork.GetRepository<Product>().AddRangeAsync(SeedProductData());
+                await unitOfWork.SaveAsync();
+                countProduct = await unitOfWork.GetRepository<Product>().GetAllAsync();
             }
-            var products = await _context.Products.ToListAsync();
-            return products;
+            return countProduct;
         }
 
         public List<Product> SeedProductData()
         {
-            List<Models.Product> products = new List<Models.Product>()
+            List<Product> products = new List<Product>()
             {
-                new Models.Product() {ProductId = 1, ProductName = "erik", Price=12.3f},
-                new Models.Product() {ProductId = 2, ProductName = "apple", Price=14.6f},
-                new Models.Product() {ProductId = 3, ProductName = "orange", Price=11.9f},
-                new Models.Product() {ProductId = 4, ProductName = "grape", Price=13.8f},
-                new Models.Product() {ProductId = 5, ProductName = "cake", Price=13.8f},
-                new Models.Product() {ProductId = 6, ProductName = "chocolatte", Price=13.8f},
-                new Models.Product() {ProductId = 7, ProductName = "bread", Price=13.8f},
-                new Models.Product() {ProductId = 8, ProductName = "chips", Price=13.8f},
-                new Models.Product() {ProductId = 9, ProductName = "patato", Price=13.8f}
+                new Product() {ProductName = "erik", Price=12.4f},
+                new Product() {ProductName = "apple", Price=14.7f},
+                new Product() {ProductName = "orange", Price=11.1f},
+                new Product() {ProductName = "grape", Price=13.5f},
+                new Product() {ProductName = "cake", Price=13.9f},
+                new Product() {ProductName = "chocolatte", Price=15.49f},
+                new Product() {ProductName = "EKMEK", Price=111112.99f},
+                new Product() {ProductName = "chips", Price=17.99f},
+                new Product() {ProductName = "patato", Price=19.49f}
             };
             return products;
+        }
+
+        public async Task DeleteProductAsync(int id)
+        {
+            await unitOfWork.GetRepository<Product>().DeleteAsync(id);
+        }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            var product = await unitOfWork.GetRepository<Product>().GetByIdAsync(id);
+            return product;
         }
     }
 }

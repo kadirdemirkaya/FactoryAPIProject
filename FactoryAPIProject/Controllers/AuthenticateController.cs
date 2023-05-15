@@ -1,6 +1,7 @@
 ﻿using FactoryAPIProject.Models;
 using FactoryAPIProject.Statics;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -19,17 +20,20 @@ namespace FactoryAPIProject.Controllers
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly List<string> _tokens;
 
         public AuthenticateController(
             UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager,
             IConfiguration configuration,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            List<string> tokens)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            _tokens = tokens;
         }
 
         [HttpPost]
@@ -43,13 +47,13 @@ namespace FactoryAPIProject.Controllers
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
 
-                    var authClaims = new List<Claim>
+                    var authClaims = new List<Claim> //Name
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
-                    foreach (var userRole in userRoles)
+                    foreach (var userRole in userRoles) //Role
                     {
                         authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                     }
@@ -96,7 +100,7 @@ namespace FactoryAPIProject.Controllers
                 Address = model.Address,
                 Gender = model.Gender,
                 FullName = model.Fullname,
-                EmailConfirmed = true,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -136,7 +140,7 @@ namespace FactoryAPIProject.Controllers
                 Address = model.Address,
                 Gender = model.Gender,
                 FullName = model.Fullname,
-                EmailConfirmed = true,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -156,6 +160,17 @@ namespace FactoryAPIProject.Controllers
             #endregion
 
             return Ok(new Response { Status = "Success !", Message = "User created successfully !", isSuccess = true });
+        }
+
+        [HttpPost]
+        [Route("LogOut")]
+        public IActionResult LogOut([FromBody] LogOutRequest request)
+        {
+            _tokens.Add(request.Token);
+            return Ok(new
+            {
+                message = "Çıkış İşlemi Başarili"
+            });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)

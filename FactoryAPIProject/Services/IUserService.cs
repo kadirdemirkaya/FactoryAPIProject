@@ -8,5 +8,10 @@ namespace FactoryAPIProject.Services
         Task<List<AppUser>> GetUsers();
 
         string GetUserName();
+
+        Task DeleteUser(int id);
+
+        void UpdateUser(AppUser appUser);
+
     }
 }
