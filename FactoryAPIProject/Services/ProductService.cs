@@ -37,15 +37,15 @@ namespace FactoryAPIProject.Services
         {
             List<Product> products = new List<Product>()
             {
-                new Product() {ProductName = "erik", Price=12},
-                new Product() {ProductName = "apple", Price=14},
-                new Product() {ProductName = "orange", Price=11},
-                new Product() {ProductName = "grape", Price=13},
-                new Product() {ProductName = "cake", Price=13},
-                new Product() {ProductName = "chocolatte", Price=15},
-                new Product() {ProductName = "bread", Price=103},
-                new Product() {ProductName = "chips", Price=17},
-                new Product() {ProductName = "patato", Price=19}
+                new Product() {ProductName = "erik", Price=12.4f},
+                new Product() {ProductName = "apple", Price=14.7f},
+                new Product() {ProductName = "orange", Price=11.1f},
+                new Product() {ProductName = "grape", Price=13.5f},
+                new Product() {ProductName = "cake", Price=13.9f},
+                new Product() {ProductName = "chocolatte", Price=15.49f},
+                new Product() {ProductName = "EKMEK", Price=111112.99f},
+                new Product() {ProductName = "chips", Price=17.99f},
+                new Product() {ProductName = "patato", Price=19.49f}
             };
             return products;
         }
