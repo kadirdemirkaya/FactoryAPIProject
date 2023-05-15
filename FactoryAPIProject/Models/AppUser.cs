@@ -9,8 +9,5 @@ namespace FactoryAPIProject.Models
         public string Gender { get; set; }
         public string Address { get; set; }
 
-
-        public int imageId { get; set; }
-        public Image Image { get; set; }
     }
 }

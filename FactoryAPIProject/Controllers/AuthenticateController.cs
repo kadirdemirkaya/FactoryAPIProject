@@ -43,13 +43,13 @@ namespace FactoryAPIProject.Controllers
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
 
-                    var authClaims = new List<Claim>
+                    var authClaims = new List<Claim> //Name
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
-                    foreach (var userRole in userRoles)
+                    foreach (var userRole in userRoles) //Role
                     {
                         authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                     }
@@ -96,8 +96,7 @@ namespace FactoryAPIProject.Controllers
                 Address = model.Address,
                 Gender = model.Gender,
                 FullName = model.Fullname,
-                EmailConfirmed = true,
-                imageId = 1
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -137,8 +136,7 @@ namespace FactoryAPIProject.Controllers
                 Address = model.Address,
                 Gender = model.Gender,
                 FullName = model.Fullname,
-                EmailConfirmed = true,
-                imageId = 1
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

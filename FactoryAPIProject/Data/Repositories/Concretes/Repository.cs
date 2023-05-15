@@ -31,7 +31,7 @@ namespace FactoryAPIProject.Data.Repositories.Concretes
             return await Table.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int? id)
         {
             return await Table.FindAsync(id);
         }

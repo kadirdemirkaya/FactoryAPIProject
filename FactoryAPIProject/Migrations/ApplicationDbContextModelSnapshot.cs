@@ -146,9 +146,6 @@ namespace FactoryAPIProject.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("imageId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -158,9 +155,6 @@ namespace FactoryAPIProject.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("imageId")
-                        .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -244,34 +238,6 @@ namespace FactoryAPIProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FactoryAPIProject.Models.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<byte[]>("Data")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("imagesFolderName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("FactoryAPIProject.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -279,9 +245,6 @@ namespace FactoryAPIProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
@@ -291,9 +254,6 @@ namespace FactoryAPIProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -305,17 +265,6 @@ namespace FactoryAPIProject.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FactoryAPIProject.Models.AppUser", b =>
-                {
-                    b.HasOne("FactoryAPIProject.Models.Image", "Image")
-                        .WithOne("AppUser")
-                        .HasForeignKey("FactoryAPIProject.Models.AppUser", "imageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("FactoryAPIProject.Models.AppUserClaim", b =>
@@ -357,26 +306,6 @@ namespace FactoryAPIProject.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FactoryAPIProject.Models.Product", b =>
-                {
-                    b.HasOne("FactoryAPIProject.Models.Image", "Image")
-                        .WithOne("Product")
-                        .HasForeignKey("FactoryAPIProject.Models.Product", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("FactoryAPIProject.Models.Image", b =>
-                {
-                    b.Navigation("AppUser")
-                        .IsRequired();
-
-                    b.Navigation("Product")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

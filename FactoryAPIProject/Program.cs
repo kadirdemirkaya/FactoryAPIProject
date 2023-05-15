@@ -78,10 +78,8 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped(typeof(IImageRepository), typeof(ImageRepository));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

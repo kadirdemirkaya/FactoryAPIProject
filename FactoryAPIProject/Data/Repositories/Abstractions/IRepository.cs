@@ -8,7 +8,7 @@ namespace FactoryAPIProject.Data.Repositories.Abstractions
         Task AddAsync(T entity);
         Task AddRangeAsync(List<T> entity);
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(int? id);
         Task DeleteAsync(int id);
         void Update(T entity);
     }

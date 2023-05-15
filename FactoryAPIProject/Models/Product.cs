@@ -8,8 +8,5 @@ namespace FactoryAPIProject.Models
         public string ProductName { get; set; }
         public float Price { get; set; }
 
-
-        public int ImageId { get; set; } = 3;
-        public Image Image { get; set; }
     }
 }
