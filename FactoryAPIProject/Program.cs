@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,10 +83,27 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+List<string> tokens = new List<string>();
+builder.Services.AddScoped<List<string>>(provider => tokens);
 
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+
+//builder.Services.AddControllers
+//    (options => options.Filters.Add<ValidationFilter>())
+//    .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginValidator>())
+//    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<TokenValidationFilter>();
+    options.Filters.Add<ValidationFilter>();
+})
     .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginValidator>())
-    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
+    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true)
+     .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.PropertyNamingPolicy = null;
+         options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+     });
 
 
 builder.Services.AddEndpointsApiExplorer();
