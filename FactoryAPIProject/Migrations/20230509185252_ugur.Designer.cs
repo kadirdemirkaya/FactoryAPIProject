@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FactoryAPIProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230509170230_mapping_add")]
-    partial class mapping_add
+    [Migration("20230509185252_ugur")]
+    partial class ugur
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FactoryAPIProject.Migrations
 {
-    public partial class mapping_add : Migration
+    public partial class ugur : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
