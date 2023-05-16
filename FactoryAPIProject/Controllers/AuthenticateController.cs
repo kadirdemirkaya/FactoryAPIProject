@@ -27,7 +27,8 @@ namespace FactoryAPIProject.Controllers
             RoleManager<AppRole> roleManager,
             IConfiguration configuration,
             SignInManager<AppUser> signInManager,
-            List<string> tokens)
+            List<string> tokens,
+            List<string> validToken)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -59,7 +60,6 @@ namespace FactoryAPIProject.Controllers
                     }
 
                     var token = GetToken(authClaims);
-
                     return Ok(new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -169,26 +169,22 @@ namespace FactoryAPIProject.Controllers
             _tokens.Add(token);
             return Ok(new
             {
-                message = "Çıkış İşlemi Başarili"
+                message = "LogOut Process Succesfully"
             });
         }
 
         [HttpGet]
         [Route("IsValidToken")]
-        [Authorize]
         public IActionResult IsValidToken([FromHeader] string token)
         {
-            #region
-            //foreach (var token in _tokens)
-            //{
-            //    if (token.ToString() == _token)
-            //    {
-            //        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "Token is NOT VALID !", isSuccess = false });
-            //    }
-            //}
-            //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token is VALID !", isSuccess = true });
-            #endregion
-            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token Exists !", isSuccess = true });
+            foreach (var item in _tokens)
+            {
+                if (item.Contains(token))
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "Token is NOT VALID !", isSuccess = false });
+                }
+            }
+            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token is VALID !", isSuccess = true });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
