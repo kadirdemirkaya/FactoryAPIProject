@@ -8,7 +8,7 @@ namespace FactoryAPIProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class ProductController : ControllerBase
     {
         readonly IProductService _productService;
@@ -18,6 +18,7 @@ namespace FactoryAPIProject.Controllers
             _productService = productService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllProduct")]
         public async Task<List<Product>> GetAllProduct()
@@ -25,6 +26,7 @@ namespace FactoryAPIProject.Controllers
             return await _productService.GetAllProductAsync();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AddProduct")]
         public async Task<IActionResult> AddProduct([FromBody] Product product)
@@ -33,6 +35,7 @@ namespace FactoryAPIProject.Controllers
             return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Product added succesfully !", isSuccess = true });
         }
 
+        [Authorize]
         [HttpPost]
         [Route("DeleteProduct")]
         public async Task<IActionResult> DeleteProduct([FromRoute]int id)

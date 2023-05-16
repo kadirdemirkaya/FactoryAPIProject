@@ -175,16 +175,20 @@ namespace FactoryAPIProject.Controllers
 
         [HttpGet]
         [Route("IsValidToken")]
-        public IActionResult IsValidToken([FromHeader]string _token)
+        [Authorize]
+        public IActionResult IsValidToken([FromHeader] string token)
         {
-            foreach (var token in _tokens)
-            {
-                if (token.ToString() == _token)
-                {
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "Token is NOT VALID !", isSuccess = false });
-                }
-            }
-            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token is VALID !", isSuccess = true });
+            #region
+            //foreach (var token in _tokens)
+            //{
+            //    if (token.ToString() == _token)
+            //    {
+            //        return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "Token is NOT VALID !", isSuccess = false });
+            //    }
+            //}
+            //return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token is VALID !", isSuccess = true });
+            #endregion
+            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token Exists !", isSuccess = true });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
