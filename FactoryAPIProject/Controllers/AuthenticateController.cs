@@ -104,15 +104,15 @@ namespace FactoryAPIProject.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-            
+
             #region  ROL !
             var roleUser = new AppRole { Name = UserRoles.User };
-            
+
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                 await _roleManager.CreateAsync(roleUser);
             await _userManager.AddToRoleAsync(user, UserRoles.User); // !
             #endregion
-            
+
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error !", Message = "User creation failed ! Please check user details and try again. please !", isSuccess = false });
             return Ok(new Response
@@ -162,15 +162,29 @@ namespace FactoryAPIProject.Controllers
             return Ok(new Response { Status = "Success !", Message = "User created successfully !", isSuccess = true });
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("LogOut")]
-        public IActionResult LogOut([FromBody] LogOutRequest request)
+        public IActionResult LogOut([FromHeader] string token)
         {
-            _tokens.Add(request.Token);
+            _tokens.Add(token);
             return Ok(new
             {
                 message = "Çıkış İşlemi Başarili"
             });
+        }
+
+        [HttpGet]
+        [Route("IsValidToken")]
+        public IActionResult IsValidToken([FromHeader]string _token)
+        {
+            foreach (var token in _tokens)
+            {
+                if (token.ToString() == _token)
+                {
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "Token is NOT VALID !", isSuccess = false });
+                }
+            }
+            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success !", Message = "Token is VALID !", isSuccess = true });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
