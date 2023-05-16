@@ -6,7 +6,7 @@ namespace FactoryAPIProject.Middlewares
     public class GlobalRequestHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly string path = @"C:\Users\Casper\Desktop\GitHub Projects\FactoryAPIProject\FactoryAPIProject";
+        private readonly string path = @"C:\Users\202103011043\source\repos\Scripts\HTML\Data-Web-test\DataBase\FactoryAPIProject";
         private readonly IHttpContextAccessor httpContextAccessor;
         public GlobalRequestHandlerMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor)
         {
