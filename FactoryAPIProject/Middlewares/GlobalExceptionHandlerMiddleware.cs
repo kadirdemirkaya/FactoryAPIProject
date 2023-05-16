@@ -22,7 +22,7 @@
             {
                 _logger.LogError(ex, "[An unhandled exception occurred.]");
 
-                using var fileStream = new FileStream($@"C:\Users\Casper\Desktop\GitHub Projects\FactoryAPIProject\FactoryAPIProject\Logs\logError.txt", FileMode.Append);
+                using var fileStream = new FileStream($@"C:\Users\202103011043\source\repos\Scripts\HTML\Data-Web-test\DataBase\FactoryAPIProject\Logs\logError.txt", FileMode.Append);
 
                 using var streamWriter = new StreamWriter(fileStream);
 

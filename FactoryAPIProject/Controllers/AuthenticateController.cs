@@ -167,10 +167,7 @@ namespace FactoryAPIProject.Controllers
         public IActionResult LogOut([FromHeader] string token)
         {
             _tokens.Add(token);
-            return Ok(new
-            {
-                message = "LogOut Process Succesfully"
-            });
+            return StatusCode(StatusCodes.Status200OK, new Response { Status = "Error !", Message = "LogOut Process Succesfully !", isSuccess = true });
         }
 
         [HttpGet]
