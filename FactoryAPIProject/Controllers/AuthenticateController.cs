@@ -167,10 +167,7 @@ namespace FactoryAPIProject.Controllers
         public IActionResult LogOut([FromBody] LogOutRequest request)
         {
             _tokens.Add(request.Token);
-            return Ok(new
-            {
-                message = "Çıkış İşlemi Başarili"
-            });
+            return Ok(new Response { Status = "Success !", Message = "çıkış başarılı", isSuccess = true });
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
